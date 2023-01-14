@@ -1,0 +1,26 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install PostgreSQL on oslo1
+      apt:
+        name: postgresql
+        state: latest
+
+    - name: Configure PostgreSQL to listen on all interfaces
+      lineinfile:
+        path: /etc/postgresql/14/main/postgresql.conf
+        regexp: "^#listen_addresses"
+        line: "listen_addresses = '*'"
+        state: present
+
+    - name: Allow incoming connections from all IP addresses
+      lineinfile:
+        path: /etc/postgresql/14/main/pg_hba.conf
+        line: "host all all 0.0.0.0/0 md5"
+        state: present
+
+    - name: Restart PostgreSQL
+      service:
+        name: postgresql
+        state: restarted
