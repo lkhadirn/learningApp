@@ -1,4 +1,3 @@
--- V3__populate_data.sql
 INSERT INTO company (name, address, created_at) VALUES
                                                     ('Company 1', 'Address 1', NOW()),
                                                     ('Company 2', 'Address 2', NOW()),

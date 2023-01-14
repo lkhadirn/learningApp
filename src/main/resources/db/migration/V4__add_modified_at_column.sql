@@ -1,0 +1,2 @@
+ALTER TABLE employee
+    ADD COLUMN modified_at TIMESTAMP DEFAULT NOW();
