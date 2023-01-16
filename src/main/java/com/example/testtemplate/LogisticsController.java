@@ -113,7 +113,8 @@ public class LogisticsController {
 
             checkBestSolution(sessionId);
 
-            return new ResponseEntity<>("File uploaded successfully.", HttpStatus.OK);
+            // TODO, for some reason routes are not returned from checkBestSolutionEndpoint
+            return new ResponseEntity<>("TODO: Make sure routes are returned in CSV", HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
             return new ResponseEntity<>("Error uploading file.", HttpStatus.INTERNAL_SERVER_ERROR);
