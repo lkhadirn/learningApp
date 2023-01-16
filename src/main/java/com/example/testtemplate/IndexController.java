@@ -20,8 +20,16 @@ public class IndexController {
 
     @GetMapping("/employees")
     public String employees(Model model) {
-        // Add any necessary data to the model here before returning the view name
         return "employees";
     }
+    @GetMapping("/company")
+    public String company(Model model) {
+        return "company";
+    }
+   @GetMapping("/logistics")
+    public String logistics(Model model) {
+        return "logistics";
+    }
+
 
 }
