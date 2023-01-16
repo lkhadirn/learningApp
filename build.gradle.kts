@@ -1,3 +1,6 @@
+
+
+
 plugins {
 	java
 	id("org.springframework.boot") version "3.0.1"
@@ -15,7 +18,9 @@ flyway {
 
 group = "com.example"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_HIGHER
+java.sourceCompatibility = JavaVersion.VERSION_19
+java.targetCompatibility = JavaVersion.VERSION_19
+
 
 configurations {
 	compileOnly {
