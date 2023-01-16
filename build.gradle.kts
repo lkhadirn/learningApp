@@ -34,7 +34,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.flywaydb:flyway-core")
 	implementation("org.postgresql:postgresql")
-	implementation("org.springframework.session:spring-session-core")
+//	implementation("org.springframework.session:spring-session-core")
 //	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")

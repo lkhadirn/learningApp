@@ -26,7 +26,7 @@
                         </div>
                         <input type="submit" value="Upload" class="btn btn-primary">
                     </form>
-                    <div id="message"></div>
+                    <div id="message" class="text-center"></div>
                 </div>
             </div>
         </div>
@@ -35,6 +35,7 @@
 <script>
     document.querySelector("#upload-form").addEventListener("submit", e => {
         e.preventDefault();
+        document.querySelector("#message").innerHTML = "Uploading file, please wait...";
         var formData = new FormData(e.target);
         fetch("/logistics/upload", {
             method: "POST",
@@ -50,7 +51,6 @@
                 document.querySelector("#message").innerHTML = error;
             });
     });
-
     function allowDrop(ev) {
         ev.preventDefault();
     }

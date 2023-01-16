@@ -1,4 +1,5 @@
 
+# Spec 
 Our customers are really dependant of our systems to be able to do their deliveries. In order for them to do this in a best possible way we need to send their customers through a route optimization model which is a solution called Spider. In this case you will be given a CSV file containing all the latitude and longitude of the customers locations. These needs to be sent over to the optimization engine and obtained back, stored and returned to the customer in a good manner. Your choice of storage and how you process the file is optional (if you read file or send through an API i.e).
 Your application is required to have the following features:
 
@@ -24,6 +25,10 @@ Final result should consist of:
    When you create a session you will need to send in some additional data besides deliveries, use the following JSON from input.json
    To be able to use Spider you will need to create a session, wait until it is ready. When optimization is running, you can check the bestSolutionValue, and choose to stop at your request.
 
+## Docs
+
+1. The input.json file contains car locations, their capacity, and when they will start driving
+2. The input 
 
 ```mermaid
 sequenceDiagram
