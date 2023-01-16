@@ -27,8 +27,10 @@ Final result should consist of:
 
 ## Docs
 
-1. The input.json file contains car locations, their capacity, and when they will start driving
-2. The input 
+1. The input.json file contains car locations, their capacity, and when they will start driving, it also contains the id to the session (why is this not created automatically, crash)
+2. From a GUI customer order addresses are given (latitude, longitude), csv file
+3. The csv file data is "merged" with input.json to give a "complete model" for the spider to decide routes
+4. Optimised routes are returned and sent back to user 
 
 ```mermaid
 sequenceDiagram

@@ -5,17 +5,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import jakarta.annotation.PostConstruct;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +26,6 @@ public class LogisticsController {
 
     private final RestTemplate restTemplate;
     private final String apiURL = "https://spider2.analytics-euw1-dev-1.eks.schibsted.io/api/v1";
-    private String sessionId;
 
     public LogisticsController(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplate = restTemplateBuilder.build();
@@ -39,7 +34,7 @@ public class LogisticsController {
     public record Location(double latitude, double longitude) {
     }
 
-    public void createSessionFromLocations(List<Location> locations) throws JsonProcessingException {
+    public String createSessionFromLocations(List<Location> locations) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         ObjectMapper objectMapper = new ObjectMapper();
@@ -47,13 +42,17 @@ public class LogisticsController {
         try {
             File inputFile = ResourceUtils.getFile("classpath:input.json");
             jsonNode = objectMapper.readTree(inputFile);
+            String sessionId = jsonNode.get("id").asText();
+            boolean sessionAlreadyCreated = isSessionAlreadyCreated(objectMapper, sessionId);
+            if (sessionAlreadyCreated) {
+                return sessionId;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         ObjectNode vrpNode = (ObjectNode) jsonNode.get("vrp");
         ArrayNode ordersNode = (ArrayNode) vrpNode.get("orders");
 
-        // Add orders
         if (locations.size() > 0) {
             for (int i = 0; i < locations.size(); i++) {
                 Location location = locations.get(i);
@@ -76,12 +75,32 @@ public class LogisticsController {
         if (response.getStatusCode() == HttpStatus.CREATED) {
             try {
                 jsonNode = objectMapper.readTree(response.getBody());
-                sessionId = jsonNode.get("id").asText();
+                String sessionId = jsonNode.get("id").asText();
                 System.out.println("Session ID: " + sessionId);
+                return sessionId;
             } catch (IOException e) {
                 System.out.println("Error while parsing JSON response from /api/v1/sessions endpoint.");
             }
+        } else {
+            System.out.println("Trouble creating session");
+            return "-1";
         }
+        return "-1";
+    }
+
+    private boolean isSessionAlreadyCreated(ObjectMapper objectMapper, String sessionId) throws JsonProcessingException {
+        // Call the sessions endpoint with the sessionId
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> request = new HttpEntity<>(headers);
+        String url = apiURL + "/sessions/" + sessionId;
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
+
+        // Check the status of the session
+        JsonNode responseJson = objectMapper.readTree(response.getBody());
+
+        // TODO, not really right. The session can be created, without being ready.
+        return responseJson.get("isReady").asBoolean();
     }
 
 
@@ -90,9 +109,9 @@ public class LogisticsController {
         try {
             List<Location> locations = getDeliveries(file);
 
-            createSessionFromLocations(locations);
+            String sessionId = createSessionFromLocations(locations);
 
-            checkBestSolution();
+            checkBestSolution(sessionId);
 
             return new ResponseEntity<>("File uploaded successfully.", HttpStatus.OK);
         } catch (IOException e) {
@@ -117,7 +136,7 @@ public class LogisticsController {
         return locations;
     }
 
-    private void checkBestSolution() {
+    private void checkBestSolution(String sessionId) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<String> entity = new HttpEntity<>(headers);
