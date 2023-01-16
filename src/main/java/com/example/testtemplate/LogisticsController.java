@@ -1,23 +1,25 @@
 package com.example.testtemplate;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,7 @@ public class LogisticsController {
 
 
     private final RestTemplate restTemplate;
-    private final String apiURL = "http://spider2.analytics-euw1-dev-1.eks.schibsted.io/api/v1";
+    private final String apiURL = "https://spider2.analytics-euw1-dev-1.eks.schibsted.io/api/v1";
     private String sessionId;
 
     public LogisticsController(RestTemplateBuilder restTemplateBuilder) {
@@ -37,24 +39,48 @@ public class LogisticsController {
     public record Location(double latitude, double longitude) {
     }
 
-    public void createSessionFromLocations(List<Location> locations) {
-        ClassPathResource inputFile = new ClassPathResource("input.json");
+    public void createSessionFromLocations(List<Location> locations) throws JsonProcessingException {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<Resource> request = new HttpEntity<>(inputFile, headers);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = null;
+        try {
+            File inputFile = ResourceUtils.getFile("classpath:input.json");
+            jsonNode = objectMapper.readTree(inputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ObjectNode vrpNode = (ObjectNode) jsonNode.get("vrp");
+        ArrayNode ordersNode = (ArrayNode) vrpNode.get("orders");
+
+        // Add orders
+        if (locations.size() > 0) {
+            for (int i = 0; i < locations.size(); i++) {
+                Location location = locations.get(i);
+                ObjectNode orderNode = objectMapper.createObjectNode();
+                orderNode.put("id", "order_" + i);
+                orderNode.put("type", "delivery");
+                ObjectNode objectNode = (ObjectNode) jsonNode;
+                objectNode.set("size", objectMapper.createArrayNode().add(1));
+                ObjectNode deliveryNode = objectMapper.createObjectNode();
+                deliveryNode.put("address", String.format("lat=%.8f;lon=%.8f", location.latitude, location.longitude));
+                orderNode.set("delivery", deliveryNode);
+                ordersNode.add(orderNode);
+            }
+        }
+        String json = objectMapper.writeValueAsString(jsonNode);
+        HttpEntity<String> request = new HttpEntity<>(json, headers);
         String url = apiURL + "/sessions";
-        ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-        if (response.getStatusCode() == HttpStatus.OK) {
+        ResponseEntity<String> response = null;
+        response = restTemplate.postForEntity(url, request, String.class);
+        if (response.getStatusCode() == HttpStatus.CREATED) {
             try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                JsonNode jsonNode = objectMapper.readTree(response.getBody());
+                jsonNode = objectMapper.readTree(response.getBody());
                 sessionId = jsonNode.get("id").asText();
                 System.out.println("Session ID: " + sessionId);
             } catch (IOException e) {
                 System.out.println("Error while parsing JSON response from /api/v1/sessions endpoint.");
             }
-        } else {
-            System.out.println("Failed to call the /api/v1/sessions endpoint. HTTP Status Code: " + response.getStatusCode());
         }
     }
 
@@ -79,13 +105,13 @@ public class LogisticsController {
         List<Location> locations = new ArrayList<>();
         BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
         String line;
+        reader.readLine(); // Skip headers
         while ((line = reader.readLine()) != null) {
             String[] values = line.split(",");
             double latitude = Double.parseDouble(values[0]);
             double longitude = Double.parseDouble(values[1]);
             Location location = new Location(latitude, longitude);
             locations.add(location);
-            System.out.println(location);
         }
         reader.close();
         return locations;
