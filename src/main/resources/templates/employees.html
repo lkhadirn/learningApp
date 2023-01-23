@@ -1,51 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Employee List</title>
-  <div th:replace="~{fragments :: imports}"></div>
+    <title>Employee List</title>
+    <div th:replace="~{fragments :: imports}"></div>
 </head>
 <body>
 
-  <div th:replace="~{fragments :: header}"></div>
+<div th:replace="~{fragments :: header}"></div>
 
 
 <div class="container mt-5">
-  <h1 class="text-center mb-5">Employee List</h1>
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>ID</th>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Email</th>
-      <th>Company ID</th>
-      <th>Created At</th>
-      <th>Modified At</th>
-    </tr>
-    </thead>
-    <tbody>
-    <!-- Use a loop here to retrieve and display the data from the employees table -->
-    <tr>
-      <td>1</td>
-      <td>John</td>
-      <td>Doe</td>
-      <td>johndoe@example.com</td>
-      <td>1</td>
-      <td>2022-01-01</td>
-      <td>2022-02-01</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>Jane</td>
-      <td>Smith</td>
-      <td>janesmith@example.com</td>
-      <td>1</td>
-      <td>2022-01-01</td>
-      <td>2022-02-01</td>
-    </tr>
-    <!-- End of loop -->
-    </tbody>
-  </table>
+    <h1 class="text-center mb-5">Employee List test</h1>
+
+    <button id="save-button" class="btn btn-primary">Save Changes</button>
+
+    <table class="table table-striped table-responsive">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Company ID</th>
+        </tr>
+        <tr th:each="employee : ${employees}">
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.firstName}" contenteditable="true"></td>
+            <td th:text="${employee.lastName}" contenteditable="true"></td>
+            <td th:text="${employee.email}" contenteditable="true"></td>
+            <td th:text="${employee.createdAt}"></td>
+        </tr>
+    </table>
 </div>
 </body>
+
+
+<script>
+    document.getElementById("save-button").addEventListener("click", function () {
+        // get all rows in the table
+        let rows = document.querySelectorAll("table tr");
+        // create an array to store the updates
+        let updates = [];
+        // loop through each row
+        for (let i = 1; i < rows.length; i++) {
+            // get the cells in the current row
+            let cells = rows[i].querySelectorAll("td");
+            // create an object to store the updates for the current row
+            let update = {
+                id: cells[0].textContent,
+                firstName: cells[1].textContent,
+                lastName: cells[2].textContent,
+                email: cells[3].textContent
+            };
+            // add the update to the array
+            updates.push(update);
+        }
+        // send the updates to the server
+        fetch("/update-employees", {
+            method: "POST",
+            body: JSON.stringify(updates),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+            });
+    });
+
+</script>
+
+
 </html>
