@@ -1,0 +1,1 @@
+rsync --rsync-path="sudo rsync" teoriproven.service ubuntu@oslo1:/etc/systemd/system/teoriproven.service
