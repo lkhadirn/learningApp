@@ -18,6 +18,13 @@ import java.util.List;
         "user_answer",
         "user_answer_array",
         "question_video_images",
+        "chapter_id",
+        "subchapter_id",
+        "course_mapped",
+        "explanation_active",
+        "explanation_active",
+        "calculator",
+        "image_modifiers",
         "answerbit"
 })
 public class Question {
@@ -35,17 +42,7 @@ public class Question {
 
     private String chapter;
 
-    private int chapterId;
-
-    private int subchapterId;
-
-    private boolean courseMapped;
-
     private String explanation;
-
-    private int explanationActive;
-
-    private int calculator;
 
     private int questionImageId;
 
@@ -65,8 +62,6 @@ public class Question {
 
     @JsonProperty("question_video_images.thumbnail_295")
     private String questionVideo;
-
-    private String imageModifiers;
 
     public String getImage_normal() {
         return image_normal;
@@ -134,30 +129,6 @@ public class Question {
         this.chapter = chapter;
     }
 
-    public int getChapterId() {
-        return chapterId;
-    }
-
-    public void setChapterId(int chapterId) {
-        this.chapterId = chapterId;
-    }
-
-    public int getSubchapterId() {
-        return subchapterId;
-    }
-
-    public void setSubchapterId(int subchapterId) {
-        this.subchapterId = subchapterId;
-    }
-
-    public boolean isCourseMapped() {
-        return courseMapped;
-    }
-
-    public void setCourseMapped(boolean courseMapped) {
-        this.courseMapped = courseMapped;
-    }
-
     public String getExplanation() {
         return explanation;
     }
@@ -165,23 +136,6 @@ public class Question {
     public void setExplanation(String explanation) {
         this.explanation = explanation;
     }
-
-    public int getExplanationActive() {
-        return explanationActive;
-    }
-
-    public void setExplanationActive(int explanationActive) {
-        this.explanationActive = explanationActive;
-    }
-
-    public int getCalculator() {
-        return calculator;
-    }
-
-    public void setCalculator(int calculator) {
-        this.calculator = calculator;
-    }
-
 
     public int getQuestionImageId() {
         return questionImageId;
@@ -237,13 +191,5 @@ public class Question {
 
     public void setVideoId(int videoId) {
         this.videoId = videoId;
-    }
-
-    public String getImageModifiers() {
-        return imageModifiers;
-    }
-
-    public void setImageModifiers(String imageModifiers) {
-        this.imageModifiers = imageModifiers;
     }
 }
