@@ -59,6 +59,26 @@ public class Question {
     @JsonProperty("IMAGE_LARGE")
     private String image_large;
 
+    private byte[] image_normal_blob;
+
+    private byte[] image_large_blob;
+
+    public byte[] getImage_normal_blob() {
+        return image_normal_blob;
+    }
+
+    public void setImage_normal_blob(byte[] image_normal_blob) {
+        this.image_normal_blob = image_normal_blob;
+    }
+
+    public byte[] getImage_large_blob() {
+        return image_large_blob;
+    }
+
+    public void setImage_large_blob(byte[] image_large_blob) {
+        this.image_large_blob = image_large_blob;
+    }
+
     private int correctAnswer;
 
     @JsonProperty("question_video_images.thumbnail_295")

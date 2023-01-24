@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,16 @@ public class JsonFileReader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        import_questions_to_database();
+    }
+
+
+
+
+
+
+    // See
+    private void import_questions_to_database() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Set<Integer> existingQuestionIds = new HashSet<>(questionRepository.findAllQuestionIds());
         List<String> filePathsList = getFilePaths();
