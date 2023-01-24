@@ -15,8 +15,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/*
+    * This class is used to load the questions from the json file into the database
+    * Also used just in general to run "one time jobs" that need the Spring context
+ */
 @Component
-public class JsonFileReader implements CommandLineRunner {
+public class StartupScriptCommandLineRunners implements CommandLineRunner {
 
     @Autowired
     private QuestionRepository questionRepository;
@@ -24,11 +28,12 @@ public class JsonFileReader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 //        import_questions_to_database();
-        migrateImages();
+//        migrateImages();
     }
 
 
-    // Migrate images from CDN to database
+    // Migrate images from CDN to database, hopefully only need once, rewrite to
+    // exclude already migrated images if run again
     public void migrateImages() {
         Iterable<Question> questions = questionRepository.findAll();
         for (Question question : questions) {
@@ -36,13 +41,13 @@ public class JsonFileReader implements CommandLineRunner {
                                                                .isEmpty()) {
                 byte[] imageBytes = retrieveImage(question.getImage_normal());
                 question.setImage_normal_blob(imageBytes);
-                question.setImage_normal(null);
+//                question.setImage_normal(null);
             }
             if (question.getImage_large() != null && !question.getImage_large()
                                                               .isEmpty()) {
                 byte[] imageBytes = retrieveImage(question.getImage_large());
                 question.setImage_large_blob(imageBytes);
-                question.setImage_large(null);
+//                question.setImage_large(null);
             }
         }
         questionRepository.saveAll(questions);
