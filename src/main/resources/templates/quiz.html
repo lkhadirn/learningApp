@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee List</title>
+    <div th:replace="~{fragments :: imports}"></div>
+</head>
+<body>
+
+<div th:replace="~{fragments :: header}"></div>
+
+
+<div class="container mt-5">
+    <h1 class="text-center mb-5">Quiz test</h1>
+
+    <img th:src="${question.image}" alt="question image" class="img-thumbnail"/>
+
+
+    <div th:each="question : ${questions}">
+        <h3 th:text="${question.question}"></h3>
+        <div th:each="answer : ${question.answers}">
+            <div th:text="${answer.text}"></div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary" onClick="goToNext">Next</button>
+</body>
+
+</html>

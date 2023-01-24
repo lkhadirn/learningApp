@@ -25,26 +25,33 @@ import java.util.List;
         "explanation_active",
         "calculator",
         "image_modifiers",
+        "video_id",
+        "question_image_id",
+        "explanation_image_id",
+        "explanation_video_id",
         "answerbit"
 })
 public class Question {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonProperty("id")
+    @Column(name = "question_id")
+    private int questionId;
 
     private String question;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers;
 
-    @ElementCollection
-    private List<Integer> correctAnswerArray;
+    @Column(columnDefinition = "integer[]")
+    private int[] correctAnswerArray;
 
     private String chapter;
 
     private String explanation;
-
-    private int questionImageId;
 
     @JsonProperty("IMAGE_NORMAL")
     private String image_normal;
@@ -52,13 +59,7 @@ public class Question {
     @JsonProperty("IMAGE_LARGE")
     private String image_large;
 
-    private int explanationImageId;
-
-    private int explanationVideoId;
-
     private int correctAnswer;
-
-    private int videoId;
 
     @JsonProperty("question_video_images.thumbnail_295")
     private String questionVideo;
@@ -112,12 +113,11 @@ public class Question {
         this.answers = answers;
     }
 
-
-    public List<Integer> getCorrectAnswerArray() {
+    public int[] getCorrectAnswerArray() {
         return correctAnswerArray;
     }
 
-    public void setCorrectAnswerArray(List<Integer> correctAnswerArray) {
+    public void setCorrectAnswerArray(int[] correctAnswerArray) {
         this.correctAnswerArray = correctAnswerArray;
     }
 
@@ -137,14 +137,6 @@ public class Question {
         this.explanation = explanation;
     }
 
-    public int getQuestionImageId() {
-        return questionImageId;
-    }
-
-    public void setQuestionImageId(int questionImageId) {
-        this.questionImageId = questionImageId;
-    }
-
     public String getImageNormal() {
         return image_normal;
     }
@@ -161,22 +153,6 @@ public class Question {
         this.image_large = IMAGE_LARGE;
     }
 
-    public int getExplanationImageId() {
-        return explanationImageId;
-    }
-
-    public void setExplanationImageId(int explanationImageId) {
-        this.explanationImageId = explanationImageId;
-    }
-
-    public int getExplanationVideoId() {
-        return explanationVideoId;
-    }
-
-    public void setExplanationVideoId(int explanationVideoId) {
-        this.explanationVideoId = explanationVideoId;
-    }
-
     public int getCorrectAnswer() {
         return correctAnswer;
     }
@@ -185,11 +161,15 @@ public class Question {
         this.correctAnswer = correctAnswer;
     }
 
-    public int getVideoId() {
-        return videoId;
+    @JsonProperty("id")
+    public int getQuestionId() {
+        return questionId;
     }
 
-    public void setVideoId(int videoId) {
-        this.videoId = videoId;
+    @JsonProperty("id")
+    public void setQuestionId(int questionId) {
+        this.questionId = questionId;
     }
+
+
 }

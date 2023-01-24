@@ -15,9 +15,18 @@ import java.util.List;
 public class IndexController {
 
     final EmployeeRepository employeeRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     public IndexController(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
+    }
+
+    @GetMapping("/quiz")
+    public String displayQuiz(Model model) {
+        List<Question> questions = questionRepository.findRandom10();
+        model.addAttribute("questions", questions);
+        return "quiz";
     }
 
     @GetMapping("/")
@@ -35,7 +44,8 @@ public class IndexController {
     @PostMapping("/update-employees")
     public String updateEmployees(@RequestBody List<Employee> updates) {
         for (Employee update : updates) {
-            Employee employee = employeeRepository.findById(update.getId()).get();
+            Employee employee = employeeRepository.findById(update.getId())
+                                                  .get();
             employee.setFirstName(update.getFirstName());
             employee.setLastName(update.getLastName());
             employee.setEmail(update.getEmail());
