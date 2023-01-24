@@ -1,0 +1,5 @@
+CREATE TABLE images
+(
+    id    BIGSERIAL PRIMARY KEY,
+    image BYTEA NOT NULL
+);
