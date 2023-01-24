@@ -24,9 +24,16 @@ public class IndexController {
 
     @GetMapping("/quiz")
     public String displayQuiz(Model model) {
-        List<Question> questions = questionRepository.findRandom10();
-        model.addAttribute("questions", questions);
+        Question question = questionRepository.findRandom1();
+        model.addAttribute("question", question);
         return "quiz";
+    }
+
+    @PostMapping("/submit_answer")
+    public String newQuestion(Model model) {
+        Question question = questionRepository.findRandom1();
+        model.addAttribute("question", question);
+        return "quiz :: question";
     }
 
     @GetMapping("/")
