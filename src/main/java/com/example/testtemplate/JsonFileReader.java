@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,15 +23,52 @@ public class JsonFileReader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        import_questions_to_database();
+//        import_questions_to_database();
+        migrateImages();
     }
 
 
+    // Migrate images from CDN to database
+    public void migrateImages() {
+        Iterable<Question> questions = questionRepository.findAll();
+        for (Question question : questions) {
+            if (question.getImage_normal() != null && !question.getImage_normal()
+                                                               .isEmpty()) {
+                byte[] imageBytes = retrieveImage(question.getImage_normal());
+                question.setImage_normal_blob(imageBytes);
+                question.setImage_normal(null);
+            }
+            if (question.getImage_large() != null && !question.getImage_large()
+                                                              .isEmpty()) {
+                byte[] imageBytes = retrieveImage(question.getImage_large());
+                question.setImage_large_blob(imageBytes);
+                question.setImage_large(null);
+            }
+        }
+        questionRepository.saveAll(questions);
+    }
+
+    private byte[] retrieveImage(String imageUrl) {
+        try {
+            byte[] imageBytes;
+            try (InputStream inputStream = new URL(imageUrl).openStream();
+                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                inputStream.transferTo(outputStream);
+                imageBytes = outputStream.toByteArray();
+                return imageBytes;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 
-
-
-    // See
+    // Import questions retrieved from external service, should be run only once
     private void import_questions_to_database() throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         Set<Integer> existingQuestionIds = new HashSet<>(questionRepository.findAllQuestionIds());
