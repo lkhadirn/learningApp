@@ -10,4 +10,5 @@ az spring app deploy \
 --service respiro \
 --name teoriproven \
 --subscription 100b4a26-f05e-4040-bcb6-e7534c5e8e02 \
+--verbose \
 --artifact-path /Users/gregtaube/IdeaProjects/hrApplication/out/artifacts/hrapplication_main_jar/hrapplication.main.jar

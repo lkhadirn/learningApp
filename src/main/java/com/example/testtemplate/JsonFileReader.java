@@ -40,8 +40,11 @@ public class JsonFileReader implements CommandLineRunner {
     }
 
     public List<String> getFilePaths() {
-        File folder = new File("/Users/gregtaube/Downloads/");
+        File folder = new File("/Users/gregtaube/Doloads/");
         File[] files = folder.listFiles();
+        if (files == null) {
+            return new ArrayList<>();
+        }
         List<String> filePaths = new ArrayList<>();
         for (File file : files) {
             if (file.isFile() && file.getName()
