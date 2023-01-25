@@ -9,7 +9,7 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "question_alternative", nullable = false, length = Integer.MAX_VALUE)
-    private String questionAlternative1;
+    private String questionAlternative;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id")
@@ -27,12 +27,12 @@ public class Answer {
         this.question = question;
     }
 
-    public String getQuestionAlternative1() {
-        return questionAlternative1;
+    public String getQuestionAlternative() {
+        return questionAlternative;
     }
 
-    public void setQuestionAlternative1(String questionAlternative1) {
-        this.questionAlternative1 = questionAlternative1;
+    public void setQuestionAlternative(String questionAlternative) {
+        this.questionAlternative = questionAlternative;
     }
 
     public Long getId() {

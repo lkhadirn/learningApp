@@ -151,9 +151,9 @@ public class StartupScriptCommandLineRunners implements CommandLineRunner {
                                 .constructCollectionType(List.class, Question.class));
             List<Question> uniqueQuestions = new ArrayList<>();
             for (Question question : questions) {
-                if (!existingQuestionIds.contains(question.getQuestionId())) {
+                if (!existingQuestionIds.contains(question.getExternalQuestionId())) {
                     uniqueQuestions.add(question);
-                    existingQuestionIds.add(question.getQuestionId());
+                    existingQuestionIds.add(question.getExternalQuestionId());
                 } else {
                     System.out.println("Question already exists: " + question.getQuestion());
                 }

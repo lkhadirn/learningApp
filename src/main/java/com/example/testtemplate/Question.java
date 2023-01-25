@@ -4,35 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.List;
 
 @Entity
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@JsonIgnoreProperties({"colsize",
-        "question_type",
-        "answered",
-        "already_answered",
-        "server_saved",
-        "user_answer",
-        "user_answer_array",
-        "correct_answer_array",
-        "question_video_images",
-        "chapter_id",
-        "subchapter_id",
-        "course_mapped",
-        "explanation_active",
-        "explanation_active",
-        "calculator",
-        "image_modifiers",
-        "video_id",
-        "question_image_id",
-        "explanation_image_id",
-        "explanation_video_id",
-        "question_video_images",
-        "answerbit"
-})
 public class Question {
 
     @Id
@@ -42,16 +19,15 @@ public class Question {
     private String question;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id")
     private List<Answer> answers;
 
     private String chapter;
 
     private String explanation;
 
-    @JsonProperty("IMAGE_NORMAL")
     private String image_normal;
 
-    @JsonProperty("IMAGE_LARGE")
     private String image_large;
 
     private byte[] image_normal_blob;
@@ -61,7 +37,6 @@ public class Question {
     private byte[] explanation_image_normal_blob;
 
     private byte[] explanation_image_large_blob;
-    private int correctAnswer;
 
     @Column(name = "external_question_id", nullable = false)
     private Integer externalQuestionId;
@@ -181,11 +156,4 @@ public class Question {
         this.image_large = IMAGE_LARGE;
     }
 
-    public int getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setCorrectAnswer(int correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
 }
