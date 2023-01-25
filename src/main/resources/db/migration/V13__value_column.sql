@@ -1,0 +1,1 @@
+ALTER TABLE answer RENAME COLUMN value TO question_alternative;

@@ -1,0 +1,1 @@
+ALTER TABLE question RENAME COLUMN question_id TO external_question_id;
