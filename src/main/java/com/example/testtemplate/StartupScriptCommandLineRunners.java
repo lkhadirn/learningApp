@@ -43,24 +43,59 @@ public class StartupScriptCommandLineRunners implements CommandLineRunner {
         for (QuestionRepository.QuestionExplanationProjection question : allQuestionSummaries) {
             String explanation = question.getExplanation();
             Document doc = Jsoup.parse(explanation);
-
-            //Extract image URLs
-            Elements imgElements = doc.select("img");
-            for (Element imgElement : imgElements) {
-                String imageNormal = imgElement.attr("srcset");
-                String imageLarge = imgElement.attr("src");
-//                question.setExplanationImageNormal(imageNormal);
-//                question.setExplanationImageLarge(imageLarge);
+            Elements images = doc.select("img[srcset]");
+            if (images.size() == 0) {
+                continue;
             }
+            for (Element image : images) {
+                image.removeAttr("srcset");
+                image.removeAttr("sizes");
+                image.removeAttr("alt");
+                image.removeAttr("loading");
+            }
+            Elements svg = doc.select("svg");
+            for (Element svgElement : svg) {
+                svgElement.remove();
+            }
+            Elements spans = doc.select("span");
+            for (Element span : spans) {
+                span.remove();
+            }
+            Elements links = doc.select("a[href]");
+            for (Element link : links) {
+                if (link.attr("href")
+                        .contains("cdn")) {
+                    link.remove();
+                }
+            }
+            String new_explanation_html = doc.body()
+                                             .html();
+            questionRepository.updateExplanation(question.getId(), new_explanation_html);
+            //Extract image URLs
+//            Elements imgElements = doc.select("img");
+//            for (Element imgElement : imgElements) {
+//                String s = imgElement.attr("srcset");
+//
+//                int firstCommaIndex = s.indexOf(",");
+//                int firstUrlLastSpace = s.substring(0,firstCommaIndex).lastIndexOf(" ");
+//                int secondUrlLastSpace = s.substring(firstCommaIndex + 2).lastIndexOf(" ");
+//
+//                String firstUrl = s.substring(0, firstUrlLastSpace);
+//                String secondUrl = s.substring(firstCommaIndex+2,firstCommaIndex+2+secondUrlLastSpace);
+//                questionRepository.updateExplanationImageNormal(question.getId(), retrieveImage(firstUrl));
+//                questionRepository.updateExplanationImageLarge(question.getId(), retrieveImage(secondUrl));
+//
+//            }
 
             //Remove anchor tags related to sound
-            Elements soundElements = doc.select(".sm2_button");
-            for (Element soundElement : soundElements) {
-                soundElement.remove();
-            }
+//            Elements soundElements = doc.select(".sm2_button");
+//            for (Element soundElement : soundElements) {
+//                soundElement.remove();
+//            }
+//
+//            String new_explanation = doc.body().html();
 
-            String new_explanation = doc.html();
-            questionRepository.updateExplanation(question.getId(), new_explanation);
+//            questionRepository.updateExplanation(question.getId(), new_explanation);
         }
     }
 

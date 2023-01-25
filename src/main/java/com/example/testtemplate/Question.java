@@ -63,6 +63,26 @@ public class Question {
 
     private byte[] image_large_blob;
 
+    private byte[] explanation_image_normal_blob;
+
+    private byte[] explanation_image_large_blob;
+
+    public byte[] getExplanation_image_normal_blob() {
+        return explanation_image_normal_blob;
+    }
+
+    public void setExplanation_image_normal_blob(byte[] explanation_image_normal_blob) {
+        this.explanation_image_normal_blob = explanation_image_normal_blob;
+    }
+
+    public byte[] getExplanation_image_large_blob() {
+        return explanation_image_large_blob;
+    }
+
+    public void setExplanation_image_large_blob(byte[] explanation_image_large_blob) {
+        this.explanation_image_large_blob = explanation_image_large_blob;
+    }
+
     public byte[] getImage_normal_blob() {
         return image_normal_blob;
     }
