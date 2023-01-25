@@ -1,6 +1,10 @@
 package com.example.testtemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -16,8 +20,8 @@ import java.util.List;
 import java.util.Set;
 
 /*
-    * This class is used to load the questions from the json file into the database
-    * Also used just in general to run "one time jobs" that need the Spring context
+ * This class is used to load the questions from the json file into the database
+ * Also used just in general to run "one time jobs" that need the Spring context
  */
 @Component
 public class StartupScriptCommandLineRunners implements CommandLineRunner {
@@ -29,8 +33,36 @@ public class StartupScriptCommandLineRunners implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        import_questions_to_database();
 //        migrateImages();
+        parseExplanations();
     }
 
+
+    public void parseExplanations() {
+
+        List<QuestionRepository.QuestionExplanationProjection> allQuestionSummaries = questionRepository.getQuestionsOnlyIdAndExplanation();
+        for (QuestionRepository.QuestionExplanationProjection question : allQuestionSummaries) {
+            String explanation = question.getExplanation();
+            Document doc = Jsoup.parse(explanation);
+
+            //Extract image URLs
+            Elements imgElements = doc.select("img");
+            for (Element imgElement : imgElements) {
+                String imageNormal = imgElement.attr("srcset");
+                String imageLarge = imgElement.attr("src");
+//                question.setExplanationImageNormal(imageNormal);
+//                question.setExplanationImageLarge(imageLarge);
+            }
+
+            //Remove anchor tags related to sound
+            Elements soundElements = doc.select(".sm2_button");
+            for (Element soundElement : soundElements) {
+                soundElement.remove();
+            }
+
+            String new_explanation = doc.html();
+            questionRepository.updateExplanation(question.getId(), new_explanation);
+        }
+    }
 
     // Migrate images from CDN to database, hopefully only need once, rewrite to
     // exclude already migrated images if run again

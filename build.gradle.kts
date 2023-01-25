@@ -41,7 +41,7 @@ dependencies {
     implementation("org.postgresql:postgresql")
 //	implementation ("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-
+    implementation ("org.jsoup:jsoup:1.15.3")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 //	implementation("org.springframework.session:spring-session-core")

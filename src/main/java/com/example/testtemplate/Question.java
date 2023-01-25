@@ -191,5 +191,6 @@ public class Question {
         this.questionId = questionId;
     }
 
-
+    public Question() {
+    }
 }
