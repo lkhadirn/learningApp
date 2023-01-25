@@ -33,7 +33,7 @@ public class StartupScriptCommandLineRunners implements CommandLineRunner {
     public void run(String... args) throws Exception {
 //        import_questions_to_database();
 //        migrateImages();
-        parseExplanations();
+//        parseExplanations();
     }
 
 
