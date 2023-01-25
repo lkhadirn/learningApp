@@ -39,10 +39,6 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonProperty("id")
-    @Column(name = "question_id")
-    private int questionId;
-
     private String question;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -67,7 +63,18 @@ public class Question {
     private byte[] explanation_image_large_blob;
     private int correctAnswer;
 
+    @Column(name = "external_question_id", nullable = false)
+    private Integer externalQuestionId;
+
     public Question() {
+    }
+
+    public Integer getExternalQuestionId() {
+        return externalQuestionId;
+    }
+
+    public void setExternalQuestionId(Integer externalQuestionId) {
+        this.externalQuestionId = externalQuestionId;
     }
 
     public byte[] getExplanation_image_normal_blob() {
@@ -180,15 +187,5 @@ public class Question {
 
     public void setCorrectAnswer(int correctAnswer) {
         this.correctAnswer = correctAnswer;
-    }
-
-    @JsonProperty("id")
-    public int getQuestionId() {
-        return questionId;
-    }
-
-    @JsonProperty("id")
-    public void setQuestionId(int questionId) {
-        this.questionId = questionId;
     }
 }
