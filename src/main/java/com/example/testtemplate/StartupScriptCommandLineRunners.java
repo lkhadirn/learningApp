@@ -104,16 +104,16 @@ public class StartupScriptCommandLineRunners implements CommandLineRunner {
     public void migrateImages() {
         Iterable<Question> questions = questionRepository.findAll();
         for (Question question : questions) {
-            if (question.getImage_normal() != null && !question.getImage_normal()
-                                                               .isEmpty()) {
-                byte[] imageBytes = retrieveImage(question.getImage_normal());
-                question.setImage_normal_blob(imageBytes);
+            if (question.getImageNormal() != null && !question.getImageNormal()
+                                                              .isEmpty()) {
+                byte[] imageBytes = retrieveImage(question.getImageNormal());
+                question.setImageNormalBlob(imageBytes);
 //                question.setImage_normal(null);
             }
-            if (question.getImage_large() != null && !question.getImage_large()
-                                                              .isEmpty()) {
-                byte[] imageBytes = retrieveImage(question.getImage_large());
-                question.setImage_large_blob(imageBytes);
+            if (question.getImageLarge() != null && !question.getImageLarge()
+                                                             .isEmpty()) {
+                byte[] imageBytes = retrieveImage(question.getImageLarge());
+                question.setImageLargeBlob(imageBytes);
 //                question.setImage_large(null);
             }
         }

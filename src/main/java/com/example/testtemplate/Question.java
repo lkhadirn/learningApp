@@ -1,10 +1,5 @@
 package com.example.testtemplate;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
-import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -26,17 +21,17 @@ public class Question {
 
     private String explanation;
 
-    private String image_normal;
+    private String imageNormal;
 
-    private String image_large;
+    private String imageLarge;
 
-    private byte[] image_normal_blob;
+    private byte[] imageNormalBlob;
 
-    private byte[] image_large_blob;
+    private byte[] imageLargeBlob;
 
-    private byte[] explanation_image_normal_blob;
+    private byte[] explanationImageNormalBlob;
 
-    private byte[] explanation_image_large_blob;
+    private byte[] explanationImageLargeBlob;
 
     @Column(name = "external_question_id", nullable = false)
     private Integer externalQuestionId;
@@ -52,53 +47,38 @@ public class Question {
         this.externalQuestionId = externalQuestionId;
     }
 
-    public byte[] getExplanation_image_normal_blob() {
-        return explanation_image_normal_blob;
+    public byte[] getExplanationImageNormalBlob() {
+        return explanationImageNormalBlob;
     }
 
-    public void setExplanation_image_normal_blob(byte[] explanation_image_normal_blob) {
-        this.explanation_image_normal_blob = explanation_image_normal_blob;
+    public void setExplanationImageNormalBlob(byte[] explanationImageNormalBlob) {
+        this.explanationImageNormalBlob = explanationImageNormalBlob;
     }
 
-    public byte[] getExplanation_image_large_blob() {
-        return explanation_image_large_blob;
+    public byte[] getExplanationImageLargeBlob() {
+        return explanationImageLargeBlob;
     }
 
-    public void setExplanation_image_large_blob(byte[] explanation_image_large_blob) {
-        this.explanation_image_large_blob = explanation_image_large_blob;
+    public void setExplanationImageLargeBlob(byte[] explanationImageLargeBlob) {
+        this.explanationImageLargeBlob = explanationImageLargeBlob;
     }
 
-    public byte[] getImage_normal_blob() {
-        return image_normal_blob;
+    public byte[] getImageNormalBlob() {
+        return imageNormalBlob;
     }
 
-    public void setImage_normal_blob(byte[] image_normal_blob) {
-        this.image_normal_blob = image_normal_blob;
+    public void setImageNormalBlob(byte[] imageNormalBlob) {
+        this.imageNormalBlob = imageNormalBlob;
     }
 
-    public byte[] getImage_large_blob() {
-        return image_large_blob;
+    public byte[] getImageLargeBlob() {
+        return imageLargeBlob;
     }
 
-    public void setImage_large_blob(byte[] image_large_blob) {
-        this.image_large_blob = image_large_blob;
+    public void setImageLargeBlob(byte[] imageLargeBlob) {
+        this.imageLargeBlob = imageLargeBlob;
     }
 
-    public String getImage_normal() {
-        return image_normal;
-    }
-
-    public void setImage_normal(String image_normal) {
-        this.image_normal = image_normal;
-    }
-
-    public String getImage_large() {
-        return image_large;
-    }
-
-    public void setImage_large(String image_large) {
-        this.image_large = image_large;
-    }
 
     public Long getId() {
         return id;
@@ -141,19 +121,20 @@ public class Question {
     }
 
     public String getImageNormal() {
-        return image_normal;
+        return imageNormal;
     }
 
-    public void setImageNormal(String IMAGE_NORMAL) {
-        this.image_normal = IMAGE_NORMAL;
+    public void setImageNormal(String imageNormal) {
+        this.imageNormal = imageNormal;
     }
 
     public String getImageLarge() {
-        return image_large;
+        return imageLarge;
     }
 
-    public void setImageLarge(String IMAGE_LARGE) {
-        this.image_large = IMAGE_LARGE;
+    public void setImageLarge(String imageLarge) {
+        this.imageLarge = imageLarge;
     }
+
 
 }

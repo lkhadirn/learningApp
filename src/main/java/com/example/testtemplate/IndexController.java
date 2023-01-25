@@ -20,7 +20,7 @@ public class IndexController {
 
     @GetMapping("/quiz")
     public String displayQuiz(Model model) {
-        Question question = questionRepository.findRandom1();
+        QuestionRepository.QP question = questionRepository.findRandom1new();
         model.addAttribute("question", question);
         return "quiz";
     }
@@ -36,7 +36,7 @@ public class IndexController {
     public @ResponseBody byte[] getQuestionImage(@PathVariable Long id) {
         Question question = questionRepository.findById(id)
                                               .get();
-        return question.getImage_normal_blob();
+        return question.getImageNormalBlob();
     }
 
 

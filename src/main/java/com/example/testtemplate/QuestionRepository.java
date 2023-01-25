@@ -16,18 +16,6 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     @Query("UPDATE Question q SET q.explanation = :explanation WHERE q.id = :id")
     void updateExplanation(@Param("id") Long id, @Param("explanation") String explanation);
 
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Question q SET q.explanation_image_normal_blob = :image WHERE q.id = :id")
-    void updateExplanationImageNormal(@Param("id") Long id, @Param("image") byte[] image);
-
-    @Modifying
-    @Transactional
-    @Query("UPDATE Question q SET q.explanation_image_large_blob = :image WHERE q.id = :id")
-    void updateExplanationImageLarge(@Param("id") Long id, @Param("image") byte[] image);
-
-
     @Query(value = "SELECT external_question_id FROM question", nativeQuery = true)
     List<Integer> findAllQuestionIds();
 
@@ -37,6 +25,9 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     @Query(value = "SELECT * FROM question ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
     Question findRandom1();
 
+    @Query(value = "SELECT id,question,image_normal,image_large_blob FROM question ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
+    QP findRandom1new();
+
     @Query(value = "SELECT id,explanation FROM question", nativeQuery = true)
     List<QuestionExplanationProjection> getQuestionsOnlyIdAndExplanation();
 
@@ -44,6 +35,26 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
         Long getId();
 
         String getExplanation();
+    }
+
+    interface QP {
+        Long getId();
+
+        String getQuestion();
+
+        String getImageNormal();
+
+        byte[] getImageLargeBlob();
+
+        List<AP> getAnswers();
+
+        interface AP {
+            Long getId();
+
+            String getAnswer();
+
+            Boolean getCorrect();
+        }
     }
 
 
