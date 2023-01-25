@@ -17,6 +17,7 @@ import java.util.List;
         "server_saved",
         "user_answer",
         "user_answer_array",
+        "correct_answer_array",
         "question_video_images",
         "chapter_id",
         "subchapter_id",
@@ -29,6 +30,7 @@ import java.util.List;
         "question_image_id",
         "explanation_image_id",
         "explanation_video_id",
+        "question_video_images",
         "answerbit"
 })
 public class Question {
@@ -45,9 +47,6 @@ public class Question {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Answer> answers;
-
-    @Column(columnDefinition = "integer[]")
-    private int[] correctAnswerArray;
 
     private String chapter;
 
@@ -66,6 +65,10 @@ public class Question {
     private byte[] explanation_image_normal_blob;
 
     private byte[] explanation_image_large_blob;
+    private int correctAnswer;
+
+    public Question() {
+    }
 
     public byte[] getExplanation_image_normal_blob() {
         return explanation_image_normal_blob;
@@ -99,11 +102,6 @@ public class Question {
         this.image_large_blob = image_large_blob;
     }
 
-    private int correctAnswer;
-
-    @JsonProperty("question_video_images.thumbnail_295")
-    private String questionVideo;
-
     public String getImage_normal() {
         return image_normal;
     }
@@ -118,14 +116,6 @@ public class Question {
 
     public void setImage_large(String image_large) {
         this.image_large = image_large;
-    }
-
-    public String getQuestionVideo() {
-        return questionVideo;
-    }
-
-    public void setQuestionVideo(String questionVideo) {
-        this.questionVideo = questionVideo;
     }
 
     public Long getId() {
@@ -144,21 +134,12 @@ public class Question {
         this.question = question;
     }
 
-
     public List<Answer> getAnswers() {
         return answers;
     }
 
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
-    }
-
-    public int[] getCorrectAnswerArray() {
-        return correctAnswerArray;
-    }
-
-    public void setCorrectAnswerArray(int[] correctAnswerArray) {
-        this.correctAnswerArray = correctAnswerArray;
     }
 
     public String getChapter() {
@@ -209,8 +190,5 @@ public class Question {
     @JsonProperty("id")
     public void setQuestionId(int questionId) {
         this.questionId = questionId;
-    }
-
-    public Question() {
     }
 }

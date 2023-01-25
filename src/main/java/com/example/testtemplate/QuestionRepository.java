@@ -37,6 +37,9 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     @Query(value = "SELECT * FROM question ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
     Question findRandom1();
 
+    @Query(value = "SELECT id, question, explanation, answers FROM question ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
+    Question findRandom1SelectedFieldsOnlyForQuestionPart();
+
     @Query(value = "SELECT id,explanation FROM question", nativeQuery = true)
     List<QuestionExplanationProjection> getQuestionsOnlyIdAndExplanation();
 
