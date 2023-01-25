@@ -1,9 +1,6 @@
 package com.example.testtemplate;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Answer {
@@ -11,10 +8,32 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "question_alternative", nullable = false, length = Integer.MAX_VALUE)
+    private String questionAlternative1;
 
-    private int isCorrect;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "question_id")
+    private Question question;
 
-    private String questionAlternative;
+    @Column(name = "is_correct")
+    private Boolean isCorrect;
+
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+    public String getQuestionAlternative1() {
+        return questionAlternative1;
+    }
+
+    public void setQuestionAlternative1(String questionAlternative1) {
+        this.questionAlternative1 = questionAlternative1;
+    }
 
     public Long getId() {
         return id;
@@ -24,19 +43,12 @@ public class Answer {
         this.id = id;
     }
 
-    public int getIsCorrect() {
+
+    public void setIsCorrect(Boolean isCorrect) {
+        this.isCorrect = isCorrect;
+    }
+
+    public Boolean getCorrect() {
         return isCorrect;
-    }
-
-    public void setIsCorrect(int key) {
-        this.isCorrect = key;
-    }
-
-    public String getQuestionAlternative() {
-        return questionAlternative;
-    }
-
-    public void setQuestionAlternative(String value) {
-        this.questionAlternative = value;
     }
 }
