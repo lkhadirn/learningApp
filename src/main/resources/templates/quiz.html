@@ -8,17 +8,17 @@
 <body>
 <div th:replace="~{fragments :: header}"></div>
 <div class="container mt-5">
-    <h1 class="text-center mb-5">Quiz test</h1>
 
     <div th:fragment="question" id="question-container">
 
-        <h2 th:text="${question.question}" class="text-center mb-24"></h2>
-        <div class="row" id="answer-and-image-container">
+        <h1 th:text="${question.question}" class="text-center"></h1>
+        <div class="row mt-lg-5" id="answer-and-image-container">
             <div class="col-lg-6 order-lg-2" id="answer-container">
                 <ul class="list-group">
                     <th:block th:each="answer : ${question.answers}">
                         <li class="list-group-item answer-li " th:value="${answer.questionAlternative}"
-                            th:data-correct-answer="${answer.isCorrect}" th:text="${answer.questionAlternative}" onclick="selectAnswer(this)"></li>
+                            th:data-correct-answer="${answer.isCorrect}" th:text="${answer.questionAlternative}"
+                            onclick="selectAnswer(this)"></li>
                     </th:block>
                 </ul>
             </div>
@@ -33,13 +33,13 @@
                 </div>
             </div>
         </div>
-        <div id="question-buttons-container" class="d-flex justify-content-center">
+        <div id="question-buttons-container" class="d-flex justify-content-center mt-5">
             <button hx-post="/submit_answer"
-                    hx-target="#question-container"
+                    hx-target="#question-container" style="font-size:1.5rem;"
                     class="btn btn-primary mr-3">Neste
             </button>
             <button class="btn btn-secondary" onclick="toggleExplanation()"
-                    id="explanation-button">Vis Fasit
+                    id="explanation-button" style="font-size:1.5rem;">Vis Fasit
             </button>
 
         </div>
@@ -75,9 +75,37 @@
 
 <style>
     .answer-li {
-        font-size: 18px;
-        height: 25%;
+        font-size: 20px;
     }
+
+    @media (max-width: 1000px) {
+        .answer-li {
+            font-size: 36px;
+        }
+    }
+
+    #answer-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    #answer-container ul {
+        flex: 1;
+    }
+
+    #answer-container li.answer-li {
+        flex: 1;
+    }
+
+
+    #question-buttons-container {
+        margin-top: 2rem;
+    }
+
+    h1 {
+        min-height: 96px;
+    }
+
 
 </style>
 </body>
