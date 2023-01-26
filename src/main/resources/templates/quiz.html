@@ -56,8 +56,15 @@
 
 <script>
     function toggleExplanation() {
-        document.getElementById("explanation-container").style.display =
-            (document.getElementById("explanation-container").style.display === "none") ? "block" : "none";
+        var explanationContainer = document.getElementById("explanation-container");
+        explanationContainer.style.display = (explanationContainer.style.display === "none") ? "block" : "none";
+
+        var answerElements = document.getElementsByClassName("answer-li");
+        for (var i = 0; i < answerElements.length; i++) {
+            if (answerElements[i].getAttribute("data-correct-answer") === "true") {
+                answerElements[i].classList.add("list-group-item-success");
+            }
+        }
     }
 
     function selectAnswer(element) {
