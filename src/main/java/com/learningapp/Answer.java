@@ -1,4 +1,4 @@
-package com.example.testtemplate;
+package com.learningapp;
 
 import jakarta.persistence.*;
 
@@ -8,16 +8,15 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "question_alternative", nullable = false, length = Integer.MAX_VALUE)
     private String questionAlternative;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "question_id")
     private Question question;
-
     @Column(name = "is_correct")
     private Boolean isCorrect;
-
 
     public Question getQuestion() {
         return question;
@@ -43,12 +42,11 @@ public class Answer {
         this.id = id;
     }
 
-
-    public void setIsCorrect(Boolean isCorrect) {
-        this.isCorrect = isCorrect;
-    }
-
     public Boolean getCorrect() {
         return isCorrect;
+    }
+
+    public void setCorrect(Boolean correct) {
+        isCorrect = correct;
     }
 }

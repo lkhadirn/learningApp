@@ -1,4 +1,4 @@
-package com.example.testtemplate;
+package com.learningapp;
 
 import jakarta.persistence.*;
 
@@ -16,27 +16,26 @@ public class Question {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     private List<Answer> answers;
-
     private String chapter;
-
     private String explanation;
-
     private String imageNormal;
-
     private String imageLarge;
-
     private byte[] imageNormalBlob;
-
     private byte[] imageLargeBlob;
-
     private byte[] explanationImageNormalBlob;
-
     private byte[] explanationImageLargeBlob;
-
     @Column(name = "external_question_id", nullable = false)
     private Integer externalQuestionId;
 
     public Question() {
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
     public Integer getExternalQuestionId() {
@@ -94,14 +93,6 @@ public class Question {
 
     public void setQuestion(String question) {
         this.question = question;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
     }
 
     public String getChapter() {

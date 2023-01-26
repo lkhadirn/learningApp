@@ -1,4 +1,4 @@
-package com.example.testtemplate;
+package com.learningapp;
 
 
 import org.springframework.http.MediaType;

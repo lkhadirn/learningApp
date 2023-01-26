@@ -1,6 +1,5 @@
-package com.example.testtemplate;
+package com.learningapp;
 
-import jakarta.persistence.Cacheable;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -8,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface QuestionRepository extends CrudRepository<Question, Long> {
 

@@ -1,4 +1,4 @@
-package com.example.testtemplate;
+package com.learningapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jsoup.Jsoup;
