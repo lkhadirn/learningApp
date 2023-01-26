@@ -15,15 +15,14 @@
         <h2 th:text="${question.question}" class="text-center mb-24"></h2>
         <div class="row" id="answer-and-image-container">
             <div class="col-lg-6 order-lg-2" id="answer-container">
-
                 <ul class="list-group">
                     <th:block th:each="answer : ${question.answers}">
-                        <li class="list-group-item" th:value="${answer.questionAlternative}"
+                        <li class="list-group-item answer-li " th:value="${answer.questionAlternative}"
                             th:data-correct-answer="${answer.isCorrect}" th:text="${answer.questionAlternative}" onclick="selectAnswer(this)"></li>
                     </th:block>
                 </ul>
-
             </div>
+
             <div class="col-lg-6 order-lg-1" id="question-image-container">
                 <div style="width:550px; height:300px;" id="quiz-image-container">
                     <img th:if="${question.imageNormal != null && question.imageNormal != ''}"
@@ -74,7 +73,13 @@
 
 </script>
 
+<style>
+    .answer-li {
+        font-size: 18px;
+        height: 25%;
+    }
 
+</style>
 </body>
 
 </html>
