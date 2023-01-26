@@ -20,7 +20,7 @@ public class IndexController {
 
     @GetMapping("/quiz")
     public String displayQuiz(Model model) {
-        QuestionRepository.QP question = questionRepository.findRandom1new();
+        Question question = questionRepository.findRandom1();
         model.addAttribute("question", question);
         return "quiz";
     }

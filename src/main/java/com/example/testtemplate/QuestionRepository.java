@@ -1,5 +1,6 @@
 package com.example.testtemplate;
 
+import jakarta.persistence.Cacheable;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -7,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface QuestionRepository extends CrudRepository<Question, Long> {
 
@@ -19,14 +21,8 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
     @Query(value = "SELECT external_question_id FROM question", nativeQuery = true)
     List<Integer> findAllQuestionIds();
 
-    @Query(value = "SELECT * FROM question ORDER BY RANDOM() LIMIT 10", nativeQuery = true)
-    List<Question> findRandom10();
-
     @Query(value = "SELECT * FROM question ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
     Question findRandom1();
-
-    @Query(value = "SELECT id,question,image_normal,image_large_blob FROM question ORDER BY RANDOM() LIMIT 1", nativeQuery = true)
-    QP findRandom1new();
 
     @Query(value = "SELECT id,explanation FROM question", nativeQuery = true)
     List<QuestionExplanationProjection> getQuestionsOnlyIdAndExplanation();
@@ -36,26 +32,4 @@ public interface QuestionRepository extends CrudRepository<Question, Long> {
 
         String getExplanation();
     }
-
-    interface QP {
-        Long getId();
-
-        String getQuestion();
-
-        String getImageNormal();
-
-        byte[] getImageLargeBlob();
-
-        List<AP> getAnswers();
-
-        interface AP {
-            Long getId();
-
-            String getAnswer();
-
-            Boolean getCorrect();
-        }
-    }
-
-
 }
