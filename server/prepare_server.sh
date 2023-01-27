@@ -7,10 +7,10 @@ sudo apt-get update
 sudo apt-get install git -y
 
 # Clone the repository
-git clone git@github.com:gregjotau/hrApplication.git
+git clone git@github.com:gregjotau/learningApp.git
 
 # Change directory to the project
-cd hrApplication
+cd learningApp
 
 # Install Java 19
 sudo apt-get install openjdk-19-jdk -y

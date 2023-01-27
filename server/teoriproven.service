@@ -3,7 +3,7 @@ Description=Teoriproven quiz
 
 [Service]
 User=root
-ExecStart=/usr/bin/java -jar /home/ubuntu/hrApplication/build/libs/hrapplication-0.0.1-SNAPSHOT.jar
+ExecStart=/usr/bin/java -jar /home/ubuntu/learningApp/build/libs/learningApp-0.0.1-SNAPSHOT.jar
 SuccessExitStatus=143
 
 [Install]
