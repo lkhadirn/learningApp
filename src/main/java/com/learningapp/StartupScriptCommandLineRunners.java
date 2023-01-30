@@ -1,10 +1,10 @@
 package com.learningapp;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+//import org.jsoup.Jsoup;
+//import org.jsoup.nodes.Document;
+//import org.jsoup.nodes.Element;
+//import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -42,35 +42,35 @@ public class StartupScriptCommandLineRunners implements CommandLineRunner {
         List<QuestionRepository.QuestionExplanationProjection> allQuestionSummaries = questionRepository.getQuestionsOnlyIdAndExplanation();
         for (QuestionRepository.QuestionExplanationProjection question : allQuestionSummaries) {
             String explanation = question.getExplanation();
-            Document doc = Jsoup.parse(explanation);
-            Elements images = doc.select("img[srcset]");
-            if (images.size() == 0) {
-                continue;
-            }
-            for (Element image : images) {
-                image.removeAttr("srcset");
-                image.removeAttr("sizes");
-                image.removeAttr("alt");
-                image.removeAttr("loading");
-            }
-            Elements svg = doc.select("svg");
-            for (Element svgElement : svg) {
-                svgElement.remove();
-            }
-            Elements spans = doc.select("span");
-            for (Element span : spans) {
-                span.remove();
-            }
-            Elements links = doc.select("a[href]");
-            for (Element link : links) {
-                if (link.attr("href")
-                        .contains("cdn")) {
-                    link.remove();
-                }
-            }
-            String new_explanation_html = doc.body()
-                                             .html();
-            questionRepository.updateExplanation(question.getId(), new_explanation_html);
+//            Document doc = Jsoup.parse(explanation);
+//            Elements images = doc.select("img[srcset]");
+//            if (images.size() == 0) {
+//                continue;
+//            }
+//            for (Element image : images) {
+//                image.removeAttr("srcset");
+//                image.removeAttr("sizes");
+//                image.removeAttr("alt");
+//                image.removeAttr("loading");
+//            }
+//            Elements svg = doc.select("svg");
+//            for (Element svgElement : svg) {
+//                svgElement.remove();
+//            }
+//            Elements spans = doc.select("span");
+//            for (Element span : spans) {
+//                span.remove();
+//            }
+//            Elements links = doc.select("a[href]");
+//            for (Element link : links) {
+//                if (link.attr("href")
+//                        .contains("cdn")) {
+//                    link.remove();
+//                }
+//            }
+//            String new_explanation_html = doc.body()
+//                                             .html();
+//            questionRepository.updateExplanation(question.getId(), new_explanation_html);
             //Extract image URLs
 //            Elements imgElements = doc.select("img");
 //            for (Element imgElement : imgElements) {
