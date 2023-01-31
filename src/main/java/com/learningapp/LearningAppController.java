@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class IndexController {
+public class LearningAppController {
 
     private final QuestionRepository questionRepository;
 
-    public IndexController(QuestionRepository questionRepository) {
+    public LearningAppController(QuestionRepository questionRepository) {
         this.questionRepository = questionRepository;
     }
 
