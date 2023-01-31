@@ -49,6 +49,14 @@
             <div class="bg-light p-5 rounded-lg m-3">
                 <h3>Forklaring</h3>
                 <p th:utext="${question.explanation}"></p>
+
+                <div style="width:550px; height:300px;" id="quiz-explanation-image-container">
+                    <img th:if="${question.explanationImageLargeBlob}"
+                         th:src="@{/question/explanation-image/{id}(id=${question.id})}"
+                         alt="question image"
+                         class="img-thumbnail"
+                         style="width:550px; height:300px;"/>
+                </div>
             </div>
         </div>
     </div>

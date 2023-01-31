@@ -39,6 +39,13 @@ public class LearningAppController {
         return question.getImageNormalBlob();
     }
 
+    @GetMapping(value = "/question/explanation-image/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getQuestionExplanationImage(@PathVariable Long id) {
+        Question question = questionRepository.findById(id)
+                                              .get();
+        return question.getExplanationImageLargeBlob();
+    }
+
 
     @GetMapping("/")
     public String index(Model model) {
