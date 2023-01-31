@@ -18,9 +18,9 @@ public class Question {
     private List<Answer> answers;
     private String chapter;
     private String explanation;
-    private String imageNormal;
-    private String imageLarge;
+    // Most images around 470 x 360, but some variation, mostly in height
     private byte[] imageNormalBlob;
+    // Most images around 1024 x 680, most variation in height
     private byte[] imageLargeBlob;
     private byte[] explanationImageNormalBlob;
     private byte[] explanationImageLargeBlob;
@@ -109,22 +109,6 @@ public class Question {
 
     public void setExplanation(String explanation) {
         this.explanation = explanation;
-    }
-
-    public String getImageNormal() {
-        return imageNormal;
-    }
-
-    public void setImageNormal(String imageNormal) {
-        this.imageNormal = imageNormal;
-    }
-
-    public String getImageLarge() {
-        return imageLarge;
-    }
-
-    public void setImageLarge(String imageLarge) {
-        this.imageLarge = imageLarge;
     }
 
 

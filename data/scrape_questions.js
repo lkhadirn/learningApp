@@ -1,4 +1,4 @@
-// logged in on a 45 question test at teoritentamen.no
+// logged in on a 45 question test
 
 function downloadQuestionsAsJson() {
     var questions = [];
