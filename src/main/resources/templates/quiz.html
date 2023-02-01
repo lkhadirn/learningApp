@@ -44,7 +44,7 @@
                     hx-target="#question-container" style="font-size:1.5rem;"
                     class="btn btn-primary mr-3">Neste
             </button>
-            <button class="btn btn-secondary" onclick="toggleExplanation()"
+            <button class="btn btn-secondary" onclick="toggleExplanationAndShowCorrectAnswer()"
                     id="explanation-button" style="font-size:1.5rem;">Vis Fasit
             </button>
 
@@ -69,7 +69,7 @@
 </div>
 
 <script>
-    function toggleExplanation() {
+    function toggleExplanationAndShowCorrectAnswer() {
         var explanationContainer = document.getElementById("explanation-container");
         explanationContainer.style.display = (explanationContainer.style.display === "none") ? "block" : "none";
 
@@ -90,6 +90,7 @@
 
         // Add "active" class to selected list item
         element.classList.add("list-group-item-primary");
+        toggleExplanationAndShowCorrectAnswer();
     }
 
 </script>
@@ -98,7 +99,6 @@
     .answer-li {
         font-size: 20px;
     }
-
 
     #answer-container {
         display: flex;
