@@ -16,19 +16,26 @@
                 <ul class="list-group">
                     <th:block th:each="answer : ${question.answers}">
                         <li class="list-group-item answer-li " th:value="${answer.questionAlternative}"
-                            th:data-correct-answer="${answer.isCorrect}" th:text="${answer.questionAlternative}"
-                            onclick="selectAnswer(this)"></li>
+                            th:data-correct-answer="${answer.isCorrect}"
+                            onclick="selectAnswer(this)">
+                            <label th:for="${answer.getId()}" th:text="${answer.questionAlternative}"></label>
+                            <input type="radio" th:id="${answer.getId()}" style="display: none">
+
+                        </li>
                     </th:block>
                 </ul>
             </div>
 
-            <div class="col-lg-6 order-lg-1" id="question-image-container">
-                <div style="width:550px; height:300px;" id="quiz-image-container">
-                    <img th:if="${question.imageNormalBlob}"
+            <div class="col-lg-6 order-lg-1"
+                 id="question-image-container"
+                 th:if="${question.imageNormalBlob}"
+            >
+                <div style="width:100%; height:300px;" id="quiz-image-container">
+                    <img
                          th:src="@{/question/image/{id}(id=${question.id})}"
                          alt="question image"
                          class="img-thumbnail"
-                         style="width:550px; height:300px;"/>
+                         style="width:100%; height:300px;"/>
                 </div>
             </div>
         </div>
@@ -49,12 +56,12 @@
                 <h3>Forklaring</h3>
                 <p th:utext="${question.explanation}"></p>
 
-                <div style="width:550px; height:300px;" id="quiz-explanation-image-container">
+                <div style="width: 100%; height:300px;" id="quiz-explanation-image-container">
                     <img th:if="${question.explanationImageLargeBlob}"
                          th:src="@{/question/explanation-image/{id}(id=${question.id})}"
                          alt="question image"
                          class="img-thumbnail"
-                         style="width:550px; height:300px;"/>
+                         style="width: 100%; height:300px;"/>
                 </div>
             </div>
         </div>
@@ -92,11 +99,6 @@
         font-size: 20px;
     }
 
-    @media (max-width: 1000px) {
-        .answer-li {
-            font-size: 36px;
-        }
-    }
 
     #answer-container {
         display: flex;
