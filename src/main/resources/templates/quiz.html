@@ -32,17 +32,19 @@
             >
                 <div style="width:100%; height:300px;" id="quiz-image-container">
                     <img
-                         th:src="@{/question/image/{id}(id=${question.id})}"
-                         alt="question image"
-                         class="img-thumbnail"
-                         style="width:100%; height:300px;"/>
+                            th:src="@{/question/image/{id}(id=${question.id})}"
+                            alt="question image"
+                            class="img-thumbnail"
+                            style="width:100%; height:300px;"/>
                 </div>
             </div>
         </div>
         <div id="question-buttons-container" class="d-flex justify-content-center mt-5 btn-group btn-group-lg">
             <button hx-post="/submit_answer"
                     hx-target="#question-container" style="font-size:1.5rem;"
-                    class="btn btn-primary mr-3">Neste
+                    class="btn btn-primary mr-3"
+                    id="next-button"
+            >Neste
             </button>
             <button class="btn btn-secondary" onclick="toggleExplanationAndShowCorrectAnswer()"
                     id="explanation-button" style="font-size:1.5rem;">Vis Fasit
@@ -69,6 +71,34 @@
 </div>
 
 <script>
+    if (window.innerWidth > 768) { // no need for shortcuts on mobile
+        document.addEventListener("keydown", function (event) {
+            switch (event.key) {
+                case "1":
+                    document.querySelectorAll("li input")[0].click();
+                    break;
+                case "2":
+                    document.querySelectorAll("li input")[1].click();
+                    break;
+                case "3":
+                    document.querySelectorAll("li input")[2].click();
+                    break;
+                case "4":
+                    document.querySelectorAll("li input")[3].click();
+                    break;
+                case "j":
+                    document.querySelector("#next-button").click();
+                    break;
+                case "f":
+                    document.querySelector("#explanation-button").click();
+                    break;
+                // Add more cases for each additional answer
+                default:
+                    break;
+            }
+        });
+    }
+
     function toggleExplanationAndShowCorrectAnswer() {
         var explanationContainer = document.getElementById("explanation-container");
         explanationContainer.style.display = (explanationContainer.style.display === "none") ? "block" : "none";
