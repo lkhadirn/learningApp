@@ -3,11 +3,6 @@ package com.learningapp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -17,6 +12,7 @@ public class UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
+
 
     public User save(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
