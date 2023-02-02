@@ -6,13 +6,15 @@ plugins {
 }
 
 flyway {
-//	url = "jdbc:postgresql://localhost:5432/testdb"
-//	user = "gregtaube"
-//	password = ""
+	url = "jdbc:postgresql://localhost:5432/testdb"
+	user = "gregtaube"
+	password = ""
 
-    url = "jdbc:postgresql://respiroproduction.postgres.database.azure.com:5432/teoriproven"
-    user = "respiro"
-    password = "sjong-lerings-baller1"
+//    url = "jdbc:postgresql://respiroproduction.postgres.database.azure.com:5432/teoriproven"
+//    user = "respiro"
+//    password = "sjong-lerings-baller1"
+//    
+    
 }
 
 

@@ -15,6 +15,12 @@ public class SecurityConfiguration {
                 .anyRequest()
                 .permitAll()
         );
+
+        // Not important to mee if someone
+        // submits answers on behalf of other users
+        // even all payments are protected by BankID, so see no
+        // reason to protect with CSRF
+        http.csrf().disable();
         return http.build();
     }
 

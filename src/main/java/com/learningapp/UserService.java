@@ -26,4 +26,13 @@ public class UserService {
     public boolean validatePassword(User user, String password) {
         return passwordEncoder.matches(password, user.getPassword());
     }
+
+    public User register(UserController.UserRegistration userRegistration) {
+        User user = new User();
+        user.setPassword(passwordEncoder.encode(userRegistration.password()));
+        user.setEmail(userRegistration.email());
+        user.setFullName("greg");
+        user.setPhoneNumber("1234567890");
+        return userRepository.save(user);
+    }
 }
