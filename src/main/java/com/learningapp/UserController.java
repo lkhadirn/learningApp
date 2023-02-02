@@ -1,6 +1,8 @@
 package com.learningapp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,25 +11,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final UserRepository userRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
-    }
-
-    @PostMapping
-    public User create(@RequestBody User user) {
-        return userRepository.save(user);
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestBody User user) {
-        User foundUser = userService.findByEmail(user.getEmail());
-        if (foundUser == null) {
-            return false;
+    public String login(@RequestParam String email, @RequestParam String password, HttpServletRequest request) {
+        User foundUser = userService.findByEmail(email);
+        if (foundUser != null && userService.validatePassword(foundUser, password)) {
+            HttpSession session = request.getSession();
+            session.setAttribute("user", foundUser);
+            return "quiz";
         }
-        return userService.validatePassword(foundUser, user.getPassword());
+        return "invalid credentials";
     }
 
     @PostMapping("/registration")
