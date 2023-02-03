@@ -1,4 +1,7 @@
-package com.learningapp;
+package com.learningapp.model;
+
+import com.learningapp.model.Question;
+import com.learningapp.model.User;
 
 import jakarta.persistence.*;
 

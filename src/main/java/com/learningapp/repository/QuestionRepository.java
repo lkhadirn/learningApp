@@ -1,4 +1,4 @@
-package com.learningapp;
+package com.learningapp.repository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+
+import com.learningapp.model.Question;
 
 public interface QuestionRepository extends CrudRepository<Question, Long> {
 

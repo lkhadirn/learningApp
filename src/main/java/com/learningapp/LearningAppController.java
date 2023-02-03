@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.security.Principal;
 
+import com.learningapp.model.Question;
+import com.learningapp.model.QuizResult;
+import com.learningapp.model.User;
+import com.learningapp.repository.QuestionRepository;
+import com.learningapp.repository.QuizResultRepository;
+import com.learningapp.repository.UserRepository;
+
 @Controller
 public class LearningAppController {
 

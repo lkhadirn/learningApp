@@ -3,6 +3,10 @@ package com.learningapp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.learningapp.UserController;
+import com.learningapp.model.User;
+import com.learningapp.repository.UserRepository;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;

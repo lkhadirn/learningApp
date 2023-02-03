@@ -1,8 +1,10 @@
-package com.learningapp;
+package com.learningapp.model;
 
 import jakarta.persistence.*;
 
 import java.util.List;
+
+import com.learningapp.model.Answer;
 
 @Entity
 public class Question {
